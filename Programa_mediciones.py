@@ -69,6 +69,9 @@ def limpiarInputs():
 
 def ventanaKey():
     ventanaKey = tk.Toplevel(root)
+    ventanaKey.resizable(False, False)
+    ventanaKey.title("Guardar key")
+    ventanaKey.iconphoto(False, icono)
     
     label = tk.Label(ventanaKey, text="Ingresar key")
     label.grid(row=0, column=0)
@@ -103,6 +106,7 @@ root = tk.Tk()
 root.title("Cargar informacion en base")
 icono = tk.PhotoImage(data=b64decode(icono_datos))
 root.iconphoto(False, icono)
+root.resizable(False, False)
 
     
     
