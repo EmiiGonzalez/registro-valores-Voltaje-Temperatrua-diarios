@@ -4,7 +4,7 @@ import datetime
 from datetime import date, time, datetime
 import requests
 import json
-import sqlite3
+import csv
 from base64 import b64decode
 import sys
 
@@ -53,12 +53,12 @@ def guardarDatos():
     
     
 def cargarBase(voltaje ,fecha, hora, minutos, temperatura):
-    conn = sqlite3.connect("mi_bd.db")
-    cursor = conn.cursor()
-    cursor.execute('''CREATE TABLE IF NOT EXISTS datos (id INTEGER PRIMARY KEY AUTOINCREMENT, voltaje NUMERIC, fecha VARCHAR(10), hora VARCHAR(2), minutos VARCHAR(2), temperatura VARCHAR(2))''')
-    cursor.execute("INSERT INTO datos (voltaje, fecha, hora, minutos, temperatura) VALUES (?,?,?,?,?)", (voltaje,fecha,hora,minutos,temperatura))
-    conn.commit()
-    conn.close()
+    with open("mi_bd.csv", mode='a', newline='') as file:
+        fieldnames = ['voltaje', 'fecha', 'hora', 'minutos', 'temperatura']
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+        if file.tell() == 0:
+            writer.writeheader()
+        writer.writerow({'voltaje': voltaje, 'fecha': fecha, 'hora': hora, 'minutos': minutos, 'temperatura': temperatura})
     
 def limpiarInputs():
     voltajeInput.delete(0, "end")
